@@ -10,3 +10,5 @@ Some of the projects are common 'first programs' for beginners.
 Note that every folder will (unless otherwise noted) hold only one single program. In some cases it is only a default class that I found interesting to build (like a class to control APIs).  
 <em>List of projects:</em>
 - Password generator and storage.
+- Flash Cards: A game to learn Spanish.
+- Turtle Crossing: Reach higher levels reaching the other side of the big road.
