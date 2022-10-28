@@ -8,13 +8,12 @@ HOW TO IMPROVE THE CODE:
     Use only 1 canvas (instead of front/back); just change the texts
     and the image whenever it flips.
         note: canvas.itemconfig(canvas_image, image=new_one)
-@author: jcara
+@author: Juan CA
 """
 # Imports
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
-import pandas as pd
 from datamanager import DataManager
 # Comments
 # flacar = flashcard; frt = front; bck = back
@@ -119,84 +118,84 @@ def new_word():
     flashcard_back.itemconfig(text_back_word, text=data.solution)
 
 
-# Build GUI ------------------------------------------------------------- #
-get_username()  # get the user's username
-# Main window
-root = Tk()
-root.title("Learn languages JC")
-root.configure(padx=20, pady=20, height=800, width=1400, bg=BG_COLOR)
-# Labels
-lb_title = Label(text=f'Hello, {input_username.get()}', font=FONT_TEXT,
-                  justify='center', bg=BG_COLOR, fg='black')
-lb_title.grid(column=1, row=0, sticky='n')
+if __name__ == '__main__':
+    # Build GUI ------------------------------------------------------------- #
+    get_username()  # get the user's username
+    # Main window
+    root = Tk()
+    root.title("Learn languages JC")
+    root.configure(padx=20, pady=20, height=800, width=1400, bg=BG_COLOR)
+    # Labels
+    lb_title = Label(text=f'Hello, {input_username.get()}', font=FONT_TEXT,
+                      justify='center', bg=BG_COLOR, fg='black')
+    lb_title.grid(column=1, row=0, sticky='n')
 
-# Flashcard front -------------------------------------------------
-im_flacar_frt = PhotoImage(file=FLASHCARD_FRONT)
-flashcard_front = Canvas(root, width=600, height=300,
-                        highlightthickness=0, bg=BG_COLOR)
-flashcard_front.create_image(300, 150, image=im_flacar_frt)
-text_word = 'Please click refresh button'
-text_front_word = flashcard_front.create_text(300, 180, text=text_word,
-                                      font=FONT_CARD, fill='black')
-text_front_lang = flashcard_front.create_text(300, 90, text=ES,
-                                      font=FONT_LANG, fill='black')
-# Canvas button full text
-bt_front_ft = Button(flashcard_front, text='Full text',
-                     command=full_text_guess)
-bt_wind_front = flashcard_front.create_window(300, 255, window=bt_front_ft)
-# Display canvas
-flashcard_front.grid(column=0, row=1, columnspan=3, pady=(10, 10))
-# Flashcard back -- Initially hidden  -----------------
-imag_flacar_bck = PhotoImage(file=FLASHCARD_BACK)
-flashcard_back = Canvas(root, width=600, height=300,
-                        highlightthickness=0, bg=BG_COLOR)
-flashcard_back.create_image(300, 150, image=imag_flacar_bck)
-text_answer = 'Hey! click refresh \nbutton first (no peeking!)'
-text_back_word = flashcard_back.create_text(300, 180, text=text_answer,
-                                      font=FONT_CARD, fill='black')
-text_back_lang = flashcard_back.create_text(300, 90, text=EN,
-                                      font=FONT_LANG, fill='black')
-# Canvas button full text
-bt_back_ft = Button(flashcard_back, text='Full text',
-                     command=full_text_answer)
-bt_wind_back = flashcard_back.create_window(300, 255, window=bt_back_ft)
-flashcard_back.grid(column=0, row=1, columnspan=3, pady=(10, 10))
-flashcard_back.grid_remove()  # Hide the card to unhide call grid again
-# Buttons ------------------------------------ #
-# Wrong button
-img_w = Image.open(BUTTON_W)
-img_bt_wrong = ImageTk.PhotoImage(img_w)
-bt_wrong = Button(root, image=img_bt_wrong, command=button_wrong,
-                  highlightthickness=0)
-bt_wrong.grid(column=0, row=2)  # , sticky='nw')
-# Right button
-img_r = Image.open(BUTTON_R).resize((100, 95))
-img_bt_right = ImageTk.PhotoImage(img_r)
-bt_right = Button(root, image=img_bt_right, command=button_right,
-                  highlightthickness=0)
-bt_right.grid(column=2, row=2)  # , sticky='ne')
-# Refresh button
-img_ref = Image.open(BUTTON_REFRESH).resize((85, 88))
-img_bt_refresh = ImageTk.PhotoImage(img_ref)
-bt_refresh = Button(root, image=img_bt_refresh, command=button_refresh,
-                    highlightthickness=0)
-bt_refresh.grid(column=0, row=0)  # , sticky='nw')
-# Exit button
-img_exit = Image.open(EXIT).resize((50, 50))
-img_bt_exit = ImageTk.PhotoImage(img_exit)
-bt_exit = Button(root, image=img_bt_exit, command=save_quit)
-bt_exit.grid(column=2, row=0)  # , sticky='ne')
-# button_show_answer
-img_ans = Image.open(BUTTON_ANSW)  # .resize((100, 68))
-img_bt_answer = ImageTk.PhotoImage(img_ans)
-bt_answer = Button(root, image=img_bt_answer, command=button_show_answer,
-                  highlightthickness=0)
-bt_answer.grid(column=1, row=2)
+    # Flashcard front -------------------------------------------------
+    im_flacar_frt = PhotoImage(file=FLASHCARD_FRONT)
+    flashcard_front = Canvas(root, width=600, height=300,
+                            highlightthickness=0, bg=BG_COLOR)
+    flashcard_front.create_image(300, 150, image=im_flacar_frt)
+    text_word = 'Please click refresh button'
+    text_front_word = flashcard_front.create_text(300, 180, text=text_word,
+                                          font=FONT_CARD, fill='black')
+    text_front_lang = flashcard_front.create_text(300, 90, text=ES,
+                                          font=FONT_LANG, fill='black')
+    # Canvas button full text
+    bt_front_ft = Button(flashcard_front, text='Full text',
+                         command=full_text_guess)
+    bt_wind_front = flashcard_front.create_window(300, 255, window=bt_front_ft)
+    # Display canvas
+    flashcard_front.grid(column=0, row=1, columnspan=3, pady=(10, 10))
+    # Flashcard back -- Initially hidden  -----------------
+    imag_flacar_bck = PhotoImage(file=FLASHCARD_BACK)
+    flashcard_back = Canvas(root, width=600, height=300,
+                            highlightthickness=0, bg=BG_COLOR)
+    flashcard_back.create_image(300, 150, image=imag_flacar_bck)
+    text_answer = 'Hey! click refresh \nbutton first (no peeking!)'
+    text_back_word = flashcard_back.create_text(300, 180, text=text_answer,
+                                          font=FONT_CARD, fill='black')
+    text_back_lang = flashcard_back.create_text(300, 90, text=EN,
+                                          font=FONT_LANG, fill='black')
+    # Canvas button full text
+    bt_back_ft = Button(flashcard_back, text='Full text',
+                         command=full_text_answer)
+    bt_wind_back = flashcard_back.create_window(300, 255, window=bt_back_ft)
+    flashcard_back.grid(column=0, row=1, columnspan=3, pady=(10, 10))
+    flashcard_back.grid_remove()  # Hide the card to unhide call grid again
+    # Buttons ------------------------------------ #
+    # Wrong button
+    img_w = Image.open(BUTTON_W)
+    img_bt_wrong = ImageTk.PhotoImage(img_w)
+    bt_wrong = Button(root, image=img_bt_wrong, command=button_wrong,
+                      highlightthickness=0)
+    bt_wrong.grid(column=0, row=2)  # , sticky='nw')
+    # Right button
+    img_r = Image.open(BUTTON_R).resize((100, 95))
+    img_bt_right = ImageTk.PhotoImage(img_r)
+    bt_right = Button(root, image=img_bt_right, command=button_right,
+                      highlightthickness=0)
+    bt_right.grid(column=2, row=2)  # , sticky='ne')
+    # Refresh button
+    img_ref = Image.open(BUTTON_REFRESH).resize((85, 88))
+    img_bt_refresh = ImageTk.PhotoImage(img_ref)
+    bt_refresh = Button(root, image=img_bt_refresh, command=button_refresh,
+                        highlightthickness=0)
+    bt_refresh.grid(column=0, row=0)  # , sticky='nw')
+    # Exit button
+    img_exit = Image.open(EXIT).resize((50, 50))
+    img_bt_exit = ImageTk.PhotoImage(img_exit)
+    bt_exit = Button(root, image=img_bt_exit, command=save_quit)
+    bt_exit.grid(column=2, row=0)  # , sticky='ne')
+    # button_show_answer
+    img_ans = Image.open(BUTTON_ANSW)  # .resize((100, 68))
+    img_bt_answer = ImageTk.PhotoImage(img_ans)
+    bt_answer = Button(root, image=img_bt_answer, command=button_show_answer,
+                      highlightthickness=0)
+    bt_answer.grid(column=1, row=2)
 
-messagebox.showinfo(title='Welcome', message=INIT_TEXT)
-# Create the set of data
-data = DataManager(input_username.get())
+    messagebox.showinfo(title='Welcome', message=INIT_TEXT)
+    # Create the set of data
+    data = DataManager(input_username.get())
 
-# END
-root.mainloop()
-
+    # END
+    root.mainloop()

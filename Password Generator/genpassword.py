@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jul 20 16:17:24 2022
-Class that generates random passwords:
-## Password:
+Generates random passwords:
     8/32 characteres long
     At least one letter
     At least one number
     At least one special character
-@author: jcara
+@author: Juan CA
 """
-from random import choice, randint, shuffle, seed
+from random import randint, shuffle, seed, sample
 from datetime import datetime
+import pandas as pd
 
 # Constants
 LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -25,38 +25,17 @@ LEN_SYMB = len(SYMBOLS)-1
 LEN_NUMB = len(NUMBERS)-1
 
 
-class GenPassword:
-    '''Generates random passwords'''
-
-    def __init__(self):
-        self.password = []
-        self.create_password()
-        shuffle(self.password)
-
-    def create_password(self):
-        '''Create random password'''
-        seed(datetime.now())
-        num_let = randint(7, 10)
-        num_sym = randint(2, 10)
-        num_num = randint(2, 10)
-        # V1 -- Works as V0 although less lines
-        password_letters = [choice(LETTERS) for _ in range(num_let)]
-        password_symb = [choice(NUMBERS) for _ in range(num_sym)]
-        password_numb = [choice(SYMBOLS) for _ in range(num_num)]
-        self.password = password_letters + password_symb + password_numb
-        # # V0 # Add random items to the password
-        # while num_let != 0:
-        #     self.password.append(LETTERS[randint(0, LEN_LETT)])
-        #     num_let -= 1  # reduce value of letters left
-        # # Adding Numbers
-        # while num_num != 0:
-        #     self.password.append(NUMBERS[randint(0, LEN_NUMB)])
-        #     num_num -= 1  # reduce value of letters left
-        # # Adding Symbols
-        # while num_sym != 0:
-        #     self.password.append(SYMBOLS[randint(0, LEN_SYMB)])
-        #     num_sym -= 1  # reduce value of letters left
-        # while len(self.password) < 8:
-        #     self.password.append(LETTERS[randint(0, LEN_LETT)])
-        #     self.password.append(NUMBERS[randint(0, LEN_NUMB)])
-        #     self.password.append(SYMBOLS[randint(0, LEN_SYMB)])
+def create_password():
+    """Create random password"""
+    seed(datetime.now())
+    password_letters = sample(LETTERS, randint(7, 10))
+    password_symb = sample(NUMBERS, randint(2, 10))
+    password_numb = sample(SYMBOLS, randint(2, 10))
+    password = password_letters + password_symb + password_numb
+    shuffle(password)
+    if len(password) > 31:
+        password = password[:32]
+    password = ''.join(password)
+    # Copy to the clipboard
+    pd.DataFrame([password]).to_clipboard(index=False, header=False)
+    return password
