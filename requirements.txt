@@ -1,7 +1,10 @@
 What did I use to develop the programs?
+First version:
 - Anaconda  
 - Spyder 5.3.1
 - Python 3.10
+Future updates:
+- PyCharm
 
 # List of packages in the conda environment:
 # Name                    Version                   Build  Channel
