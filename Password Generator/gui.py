@@ -1,5 +1,5 @@
 """
-    GUI.py
+    gui.py
     Control the GUI and processes
     :copyright: (c) 2022 Juan Carcedo, All rights reserved
     :licence: MIT, see LICENSE.txt for further details.
@@ -13,7 +13,7 @@ FONT_TITLE = ('Consolas', 25, 'bold')
 JSON_FILE = 'data.json'
 
 
-class GUI:
+class InterfaceManager:
 
     def __init__(self):
         self.__root = tk.Tk()

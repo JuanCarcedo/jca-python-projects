@@ -5,9 +5,9 @@ Updated on Oct 28 2022
 Password generator and storage
 @author: Juan CA
 """
-from GUI import GUI
+from gui import InterfaceManager
 
 
 if __name__ == '__main__':
-    screen = GUI()
+    screen = InterfaceManager()
     screen.end_screen()
