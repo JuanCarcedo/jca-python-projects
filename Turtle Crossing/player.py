@@ -2,7 +2,7 @@
 """
 Created on Mon Jul 11 11:27:48 2022
 This class keeps track of the turtle for the player
-@author: jcara
+@author: Juan CA
 """
 from turtle import Turtle
 

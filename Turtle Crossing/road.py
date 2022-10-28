@@ -2,7 +2,7 @@
 """
 Created on Mon Jul 11 12:08:00 2022
 Modify and display the road
-@author: jcara
+@author: Juan CA
 """
 from turtle import Turtle
 
@@ -17,7 +17,7 @@ class Road(Turtle):
         self.create_limits()
 
     def create_limits(self):
-        '''Create visual limits for the game'''
+        """Create visual limits for the game"""
         # 260 / 240
         step = 60
         for i in range(-260, 240, step):

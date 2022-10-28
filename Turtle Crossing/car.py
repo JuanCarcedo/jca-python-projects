@@ -2,7 +2,7 @@
 """
 Created on Mon Jul 11 11:51:06 2022
 This class controls and creates new cars
-@author: jcara
+@author: Juan CA
 """
 from turtle import Turtle
 import random as rnd
@@ -11,7 +11,7 @@ from datetime import datetime
 MOVE_DISTANCE = 20
 
 
-class Car():
+class Car:
 
     def __init__(self, roads):
         self.car_list = []
@@ -20,7 +20,7 @@ class Car():
         self.move_speed = 0.1
 
     def add_car(self):
-        '''New car to the list'''
+        """New car to the list"""
         new_car = Turtle(shape="square")
         new_car.penup()
         new_car.color(self.rand_color())  # Random
@@ -34,7 +34,6 @@ class Car():
         for car in self.car_list:
             new_x = car.xcor() - MOVE_DISTANCE
             car.goto(new_x, car.ycor())
-            # car.backwards(MOVE_DISTANCE) --> Other pos
             self.end_road(car)
 
     def reset_position(self, car):
@@ -43,12 +42,12 @@ class Car():
         car.goto(320, y_pos)
 
     def end_road(self, car):
-        '''Check if it is the end of the road'''
+        """Check if it is the end of the road"""
         if car.xcor() < -300:  # End reached
             self.reset_position(car)
 
     def rand_color(self):
-        '''Returns random color in hexa'''
+        """Returns random color in hexadecimal"""
         return "#"+''.join([rnd.choice('ABCDEF0123456789') for i in range(6)])
 
     def update_cars(self):
