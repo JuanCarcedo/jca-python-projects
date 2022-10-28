@@ -12,3 +12,4 @@ Note that every folder will (unless otherwise noted) hold only one single progra
 - Password generator and storage.
 - Flash Cards: A game to learn Spanish.
 - Turtle Crossing: Reach higher levels reaching the other side of the big road.
+  + V2 20221028 - High score included.
