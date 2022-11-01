@@ -11,5 +11,7 @@ Note that every folder will (unless otherwise noted) hold only one single progra
 <em>List of projects:</em>
 - Password generator and storage.
 - Flash Cards: A game to learn Spanish.
+  + V2 20221101 - Redesign of the full program.
 - Turtle Crossing: Reach higher levels reaching the other side of the big road.
   + V2 20221028 - High score included.
+- Dataframe Check: Class to do some basic first checks to a set of data in Pandas.
