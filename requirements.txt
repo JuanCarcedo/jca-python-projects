@@ -5,6 +5,7 @@ First version:
 - Python 3.10
 Future updates:
 - PyCharm
+- Python 3.11
 
 # Required packages:
 # Name  Version
