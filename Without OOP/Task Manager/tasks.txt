@@ -1,0 +1,2 @@
+admin, Register Users with manager, Use manager to add the usernames and passwords for all team members that will be using this program., 10 Dec 2022, 20 Dec 2022, No
+admin, Assign initial tasks, Use manager to assign each team member with appropriate tasks, 10 Dec 2022, 25 Dec 2022, No
