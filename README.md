@@ -3,7 +3,7 @@ Please find here some programs or pieces of code that I developed using Python.
 Some of the projects are common 'first programs' for beginners.
 ## Instructions
 - Check requirements.
-- Execute 'main.py' to see how the program works.
+- Execute 'main.py' to see how the program works. Otherwise, execute the only file in the folder.
 - For API projects, please note that you will need to modify some of the variables.  
   *You will not find my keys in the programs. Also, you may want to use environment variables. Feel free to include the required code to do so.  
 ## Projects
@@ -15,3 +15,8 @@ Note that every folder will (unless otherwise noted) hold only one single progra
 - Turtle Crossing: Reach higher levels reaching the other side of the big road.
   + V2 20221028 - High score included.
 - Dataframe Check: Class to do some basic first checks to a set of data in Pandas.
+- Without OOP:
+ + File check data: Initial checks (counting items) for txt files.
+ + Files - Function Converter: Gather data from a file, execute the calculations required and then save the results into another file.
+ + Task Manager: Base for a task manager program with admin and user menus and options.
+ + finance_calculator: Interest calculation on a loan or an investment (simple, compound).
