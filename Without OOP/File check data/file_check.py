@@ -1,10 +1,11 @@
 """
-    By: Juan Carcedo Aldecoa
     Date: 10/12/2022
     Description:
         A program to check and overview the contents of a file.
     Note:
         try-except block to prevent (or alert) if any errors during file handling.
+    :copyright: (c) 2022 Juan Carcedo, All rights reserved
+    :licence: MIT, see LICENSE.txt for further details.
 """
 
 # Constant with the root to the file

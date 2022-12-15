@@ -1,5 +1,4 @@
 """
-    By: Juan Carcedo Aldecoa
     Date: 11/12/2022
     Description:
         This program manages tasks.
@@ -7,6 +6,8 @@
         - Admin user can add users to the system and see stats. Also do anything that a user can.
     Note:
         try-except block to prevent (or alert) if any errors during file handling.
+    :copyright: (c) 2022 Juan Carcedo, All rights reserved
+    :licence: MIT, see LICENSE.txt for further details.
 """
 # =====importing libraries===========
 from datetime import date

@@ -1,9 +1,10 @@
 """
-    By: Juan Carcedo Aldecoa
     Date: 07/12/2022
     Description:
         This program calculates the interest of a loan or of an investment based
         on user selection.
+    :copyright: (c) 2022 Juan Carcedo, All rights reserved
+    :licence: MIT, see LICENSE.txt for further details.
 """
 # IMPORTS =====
 from math import pow

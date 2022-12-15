@@ -1,12 +1,12 @@
 """
-    By: Juan Carcedo Aldecoa
     Date: 12/12/2022
     Note:
         Function converter reads a file (input) and execute the operations requested
         with the members in a list. Then save the result in output file.
-
         try-except used to handle errors whilst using files.
         No try-except is used for the inputs as required.
+    :copyright: (c) 2022 Juan Carcedo, All rights reserved
+    :licence: MIT, see LICENSE.txt for further details.
 """
 # IMPORTS ====
 from math import ceil, floor
