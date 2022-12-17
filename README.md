@@ -15,6 +15,7 @@ Note that every folder will (unless otherwise noted) hold only one single progra
 - Turtle Crossing: Reach higher levels reaching the other side of the big road.
   + V2 20221028 - High score included.
 - Dataframe Check: Class to do some basic first checks to a set of data in Pandas.
+- Email platform simple simulator: Simulator of an inbox.
 - Without OOP:
    + File check data: Initial checks (counting items) for txt files.
    + Files - Function Converter: Gather data from a file, execute the calculations required and then save the results into another file.
