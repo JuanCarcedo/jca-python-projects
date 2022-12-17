@@ -1,2 +1,11 @@
-admin, Register Users with manager, Use manager to add the usernames and passwords for all team members that will be using this program., 10 Dec 2022, 20 Dec 2022, No
-admin, Assign initial tasks, Use manager to assign each team member with appropriate tasks, 10 Dec 2022, 25 Dec 2022, No
+admin, Register Users with taskManager.py, Use taskManager.py to add the usernames and passwords for all team members that will be using this program., 10 Oct 2019, 20 Oct 2019, No
+admin, Assign initial tasks, Use taskManager.py to assign each team member with appropriate tasks, 10 Oct 2019, 25 Oct 2019, No
+juan, Test 3, Test 3 text, 11 Dec 2022, 27 Dec 2022, No
+admin, Test 4, Test 4 text, 11 Dec 2022, 15 Dec 2022, Yes
+admin, Test 5, Test 5 text, 11 Dec 2022, 12 Dec 2022, Yes
+juan, Test 6, Test 6 text, 11 Dec 2022, 27 Dec 2022, No
+juan, Test 7, Test 7 text, 11 Dec 2022, 27 Dec 2022, Yes
+cato2, Test 8, Test 8 text, 11 Dec 2022, 27 Dec 2022, Yes
+juan, Test 9, Test 9 text, 11 Dec 2022, 14 Dec 2022, No
+juan, Test 10, Test 10 text, 11 Dec 2022, 15 Dec 2022, No
+tutu, Tutu Test, Tutu tutu tutuuuuu, 16 Dec 2022, 17 Dec 2022, No

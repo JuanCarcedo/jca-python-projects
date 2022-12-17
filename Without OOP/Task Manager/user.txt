@@ -1,2 +1,4 @@
 admin, adm1n
-test_user, userpass01
+juan, juan01
+tut, tutu
+cato, cato

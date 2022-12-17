@@ -1,0 +1,28 @@
++------------- User Overview Report -------------+
++- Total number of users with tasks:    4
++- Total number of tasks:               11
++- Data for user admin:
++-	Tasks assigned:                     4
++- 	Percentage of all tasks:           36.0%
++-	Tasks completed:                    75.0%
++-	Tasks to-be completed:              25.0%
++-	To-be completed and overdue:        25.0%
++- Data for user juan:
++-	Tasks assigned:                     5
++- 	Percentage of all tasks:           45.0%
++-	Tasks completed:                    20.0%
++-	Tasks to-be completed:              80.0%
++-	To-be completed and overdue:        40.0%
++- Data for user cato2:
++-	Tasks assigned:                     1
++- 	Percentage of all tasks:           9.0%
++-	Tasks completed:                    100.0%
++-	Tasks to-be completed:              0.0%
++-	To-be completed and overdue:        0.0%
++- Data for user tutu:
++-	Tasks assigned:                     1
++- 	Percentage of all tasks:           9.0%
++-	Tasks completed:                    0.0%
++-	Tasks to-be completed:              100.0%
++-	To-be completed and overdue:        0.0%
++------------------------------------------------+

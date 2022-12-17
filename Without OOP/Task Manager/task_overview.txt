@@ -1,0 +1,7 @@
++------------- Task Overview Report -------------+
++- Total number of tasks:    11
++- Of which:
++- 	Completed:               5 (45.0% of total)
++- 	Incomplete:              6 (55.0% of total)
++- 	Incomplete and overdue:  5 (45.0% of total)
++------------------------------------------------+
