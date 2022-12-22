@@ -1,6 +1,6 @@
 # jca-python-projects
 Please find here some programs or pieces of code that I developed using Python.  
-I am using PyCharm with GitHub to update these files.
+I am using PyCharm with GitHub to update these files.  
 Some of the projects are common 'first programs' for beginners.
 ## Instructions
 - Check requirements.
