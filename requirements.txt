@@ -11,3 +11,4 @@ Future updates:
 # Name  Version
 pandas~=1.5.1
 Pillow~=9.2.0
+Tabulate~=0.9.0
