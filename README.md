@@ -24,5 +24,5 @@ Without OOP:
 - Task Manager: Base for a task manager program with admin and user menus and options.
 - finance_calculator: Interest calculation on a loan or an investment (simple, compound).
   
-With SQLite:
+With SQLite:  
 SQLite Test: Class to manage/handle simple SQLite requests (create table, update table...).
