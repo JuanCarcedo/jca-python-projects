@@ -7,8 +7,9 @@ Some of the projects are common 'first programs' for beginners.
 - Execute 'main.py' to see how the program works. Otherwise, execute the only file in the folder.
 - For API projects, please note that you will need to modify some of the variables.  
   *You will not find my keys in the programs. Also, you may want to use environment variables. Feel free to include the required code to do so.  
+  
 ## Projects
-Note that every folder will (unless otherwise noted) hold only one single program. In some cases it is only a default class that I found interesting to build (like a class to control APIs).  
+Note that every folder will (unless otherwise noted) hold only one single program. In some cases it is only a default class that I found interesting to build.  
 <em>List of projects:</em>
 - Password generator and storage.
 - Flash Cards: A game to learn Spanish.
