@@ -1,4 +1,4 @@
-# jca-python-projects
+# Python Projects
 Please find here some programs or pieces of code that I developed using Python.  
 I am using PyCharm with GitHub to update these files.  
 Some of the projects are common 'first programs' for beginners.
@@ -25,4 +25,5 @@ Without OOP:
 - finance_calculator: Interest calculation on a loan or an investment (simple, compound).
   
 With SQLite:  
-SQLite Test: Class to manage/handle simple SQLite requests (create table, update table...).
+SQLite Test: Class to manage/handle simple SQLite requests (create table, update table...).  
+Bookstore: Bookstore data management with database. Note there is an external class to manage the interaction with the database.  
