@@ -5,10 +5,9 @@ Some of the projects are common 'first programs' for beginners.
 ## Instructions
 - Check requirements.
 - Execute 'main.py' to see how the program works. Otherwise, execute the only file in the folder.
-- For API projects, please note that you will need to modify some of the variables.  
-  *You will not find my keys in the programs. Also, you may want to use environment variables. Feel free to include the required code to do so.  
+  
 ## Projects
-Note that every folder will (unless otherwise noted) hold only one single program. In some cases it is only a default class that I found interesting to build (like a class to control APIs).  
+Note that every folder will (unless otherwise noted) hold only one single program. In some cases it is only a default class that I found interesting to build.  
 <em>List of projects:</em>
 - Password generator and storage.
 - Flash Cards: A game to learn Spanish.
@@ -17,9 +16,13 @@ Note that every folder will (unless otherwise noted) hold only one single progra
   + V2 20221028 - High score included.
 - Dataframe Check: Class to do some basic first checks to a set of data in Pandas.
 - Email platform simple simulator: Simulator of an inbox.
-- SQLite Test: Class to manage/handle simple SQLite requests (create table, update table...).
-- Without OOP:
-   + File check data: Initial checks (counting items) for txt files.
-   + Files - Function Converter: Gather data from a file, execute the calculations required and then save the results into another file.
-   + Task Manager: Base for a task manager program with admin and user menus and options.
-   + finance_calculator: Interest calculation on a loan or an investment (simple, compound).
+- Warehouse: Implementation of an inventory management using txt as database.
+  
+Without OOP:
+- File check data: Initial checks (counting items) for txt files.
+- Files - Function Converter: Gather data from a file, execute the calculations required and then save the results into another file.
+- Task Manager: Base for a task manager program with admin and user menus and options.
+- finance_calculator: Interest calculation on a loan or an investment (simple, compound).
+  
+With SQLite:  
+SQLite Test: Class to manage/handle simple SQLite requests (create table, update table...).
