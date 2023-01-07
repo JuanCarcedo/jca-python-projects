@@ -23,6 +23,12 @@ Without OOP:
 - Files - Function Converter: Gather data from a file, execute the calculations required and then save the results into another file.
 - Task Manager: Base for a task manager program with admin and user menus and options.
 - finance_calculator: Interest calculation on a loan or an investment (simple, compound).
+
+##### App (with Kivy): --> Work In Progress.  
+Programtester: App that will be used to test some Python codes already implemented like:
+- Password and user management.  
+- Simple games in Python (PyGame maybe in the future).
+- App for a store or warehouse.  
   
 With SQLite:  
 SQLite Test: Class to manage/handle simple SQLite requests (create table, update table...).  
