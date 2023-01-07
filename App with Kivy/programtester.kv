@@ -1,0 +1,162 @@
+#:kivy 2.1.0
+#:import hex kivy.utils.get_color_from_hex
+
+#:set clr_blue_med hex('#178CA4')
+#:set clr_blue_fade hex('#6c9aa3')
+#:set clr_body hex('#d8dbdd')
+#:set font_title 'data/fonts/8-bit-operator/8bitOperatorPlus-Regular.ttf'
+
+
+<LogInWindow>:
+    id: login_window
+    orientation: 'vertical'
+    spacing: 10
+    distance_x: self.size[0]
+
+    BoxLayout:
+        padding: 10, 10
+        size_hint_y: None
+        height: 50
+        back_color: clr_blue_med
+        canvas.before:
+            Color:
+                rgba: (0, 0, 0, 1) if self.back_color is None else self.back_color
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: 'Test Some Programs with UI'
+            bold: True
+            font_size: 23
+            font_name: font_title
+            size_hint_x: .9
+
+        Button:
+            text: 'x'
+            font_size: 15
+            background_color: clr_blue_fade
+            size_hint_x: .05
+            size_hint_y: .7
+            valign: 'center'
+            halign: 'center'
+            on_release: app.close_application()
+
+    # Log on manager =======
+    BoxLayout:
+        orientation: 'vertical'
+        # Change padding to center the layout
+        padding: login_window.distance_x/4, 10
+        spacing: 10
+        Label:  # Needed to align the items in the center
+            id: dummy_space_2
+            text: 'App Mk.I'
+            bold: True
+            font_size: 40
+            font_name: font_title
+
+        TextInput:
+            hint_text: 'Username'
+            multiline: False
+            # Change height:
+            size_hint_y: None
+            height: 40
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+            # Change height:
+            size_hint_y: None
+            height: 40
+            TextInput:
+                hint_text: 'Password'
+                password: True
+                multiline: False
+                # on_text: viewer.text = self.text
+                size_hint_x: .7
+
+            Button:
+                text: 'Show'
+                size_hint_x: .3
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+            # Change height:
+            size_hint_y: None
+            height: 40
+            Button:
+                text: 'Log In'
+                font_size: 15
+                padding: 5, 5
+
+            Button:
+                text: 'Create user'
+                font_size: 15
+                padding: 5, 5
+                on_press:
+                    root.manager.transition.direction ='right'
+                    root.manager.current = 'new_user'
+
+        Label:  # Needed to align the items in the center
+            id: dummy_space
+
+<UserCreation>:
+    id: create_new_user
+    orientation: 'vertical'
+    spacing: 10
+    distance_x: self.size[0]
+
+    # Lower item same in all app
+    BoxLayout:
+        padding: 10, 10
+        size_hint_y: None
+        height: 50
+        back_color: clr_blue_med
+        canvas.before:
+            Color:
+                rgba: (0, 0, 0, 1) if self.back_color is None else self.back_color
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: 'Test Some Programs with UI'
+            bold: True
+            font_size: 23
+            font_name: font_title
+            size_hint_x: .9
+
+        Button:
+            text: 'x'
+            font_size: 15
+            background_color: clr_blue_fade
+            size_hint_x: .05
+            size_hint_y: .7
+            valign: 'center'
+            halign: 'center'
+            on_release: app.close_application()
+
+    # User creation pack =============
+    BoxLayout:
+        orientation: 'vertical'
+        # Change padding to center the layout
+        padding: create_new_user.distance_x/4, 10
+        spacing: 10
+        Button:
+            text: 'Back'
+            font_size: 15
+            height: 40
+            padding: 5, 5
+            on_press:
+                root.manager.transition.direction ='left'
+                root.manager.current = 'login'
+
+        Label:
+            text: 'WIP'
+            bold: True
+            font_size: 40
+            font_name: font_title
+
+
+
