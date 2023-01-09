@@ -6,6 +6,35 @@
 #:set clr_body hex('#d8dbdd')
 #:set font_title 'data/fonts/8-bit-operator/8bitOperatorPlus-Regular.ttf'
 
+# Lower bar:
+<LowerBar@BoxLayout>:
+    padding: 10, 10
+    size_hint_y: None
+    height: 50
+    back_color: clr_blue_med
+    canvas.before:
+        Color:
+            rgba: (0, 0, 0, 1) if self.back_color is None else self.back_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: 'Test Some Programs with UI'
+        bold: True
+        font_size: 23
+        font_name: font_title
+        size_hint_x: .9
+
+    Button:
+        text: 'x'
+        font_size: 15
+        background_color: clr_blue_fade
+        size_hint_x: .05
+        size_hint_y: .7
+        valign: 'center'
+        halign: 'center'
+        on_release: app.close_application()
 
 <LogInWindow>:
     id: login_window
@@ -13,34 +42,8 @@
     spacing: 10
     distance_x: self.size[0]
 
-    BoxLayout:
-        padding: 10, 10
-        size_hint_y: None
-        height: 50
-        back_color: clr_blue_med
-        canvas.before:
-            Color:
-                rgba: (0, 0, 0, 1) if self.back_color is None else self.back_color
-            Rectangle:
-                pos: self.pos
-                size: self.size
-
-        Label:
-            text: 'Test Some Programs with UI'
-            bold: True
-            font_size: 23
-            font_name: font_title
-            size_hint_x: .9
-
-        Button:
-            text: 'x'
-            font_size: 15
-            background_color: clr_blue_fade
-            size_hint_x: .05
-            size_hint_y: .7
-            valign: 'center'
-            halign: 'center'
-            on_release: app.close_application()
+    LowerBar:
+        # Used in all widgets.
 
     # Log on manager =======
     BoxLayout:
@@ -107,35 +110,8 @@
     spacing: 10
     distance_x: self.size[0]
 
-    # Lower item same in all app
-    BoxLayout:
-        padding: 10, 10
-        size_hint_y: None
-        height: 50
-        back_color: clr_blue_med
-        canvas.before:
-            Color:
-                rgba: (0, 0, 0, 1) if self.back_color is None else self.back_color
-            Rectangle:
-                pos: self.pos
-                size: self.size
-
-        Label:
-            text: 'Test Some Programs with UI'
-            bold: True
-            font_size: 23
-            font_name: font_title
-            size_hint_x: .9
-
-        Button:
-            text: 'x'
-            font_size: 15
-            background_color: clr_blue_fade
-            size_hint_x: .05
-            size_hint_y: .7
-            valign: 'center'
-            halign: 'center'
-            on_release: app.close_application()
+    LowerBar:
+        # Used in all widgets.
 
     # User creation pack =============
     BoxLayout:
