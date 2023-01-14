@@ -63,7 +63,8 @@ class DataBase:
                        data,
                        table_header: list,
                        table_name: str,
-                       method: str = 'multiple') -> None:
+                       method: str = 'multiple',
+                       key_auto: bool = False) -> None:
         """
         INSERT records in the database. Can insert one record or multiple ones using method.
         :param data: Data to insert into database (must be tuple for single insertion or
@@ -71,6 +72,7 @@ class DataBase:
         :param table_header: Header of the table in List format.
         :param table_name: Name of table for inserting.
         :param method: 'single' for single insert, 'multiple' for multiple inserts.
+        :param key_auto: If key in table is set as autoincrement, set to True.
         :return: None.
         """
         # Add data into the new table.
@@ -81,8 +83,14 @@ class DataBase:
             number_fields = len(table_header) - 1  # Reduced by 1 because one ? will be added manually.
             # Note: The length of the header is used to calculate the number of
             # parameters needed [set as (?,....)].
-            sql = f'''INSERT INTO {table_name}
-                 VALUES ({"?," * number_fields}?)'''
+            if key_auto:
+                # If key is auto increment, then the code it is different:
+                sql = f'''INSERT INTO {table_name}({','.join(table_header[1:])})
+                     VALUES ({"?," * (number_fields - 1)}?)'''  # Number fields reduced for key.
+            else:
+                sql = f'''INSERT INTO {table_name}
+                     VALUES ({"?," * number_fields}?)'''
+
             if method == 'multiple':
                 # Multiple member selection.
                 self.__cursor.executemany(sql, data)
@@ -95,6 +103,12 @@ class DataBase:
             self.__db.commit()
 
         except sqlite3.IntegrityError as error:
+            print(f'+-- ERROR: {error}.')
+            print(f'+-- Process aborted.\n')
+            # Rollback any changes if there is any issue.
+            self.__db.rollback()
+
+        except sqlite3.OperationalError as error:
             print(f'+-- ERROR: {error}.')
             print(f'+-- Process aborted.\n')
             # Rollback any changes if there is any issue.
@@ -175,19 +189,54 @@ class UserTable(DataBase):
     """
     # User's data table:
     TABLE_USERS = 'userdata'
-    TABLE_USERS_HEADER = ['id', 'username', 'password']
+    TABLE_USERS_HEADER = ['username', 'password']
     # Fields for the user table.
     TABLE_USER_FIELDS = '''
-        id INTEGER PRIMARY KEY,
-        username TEXT,
+        username TEXT NOT NULL PRIMARY KEY,
         password TEXT
         '''
+    # Password and User_Id constrains.
+    MIN_LEN_USERNAME = 5
+    MIN_LEN_PASSWORD = 10
+
+    __users_available = []
 
     def __init__(self):
         super().__init__()
         # Create UserTable
         self.create_table(self.TABLE_USERS, self.TABLE_USER_FIELDS)
-        self.__users_available = self.__gather_users_available()
+        self.__gather_users_available()
+
+    def add_data(self, new_user: str, new_password: str) -> str:
+        """
+        Add new users/password to the db. Only if the user does not exist.
+        Constrains: User and password with minimum length.
+        :param new_user: str. New user id.
+        :param new_password: str. New password.
+        :return: str.
+        """
+        if not self.check_if_user_exists(new_user):
+            # Only do checks if the users does not exist.
+            if new_user\
+                    and new_password\
+                    and len(new_user) >= self.MIN_LEN_USERNAME\
+                    and len(new_password) >= self.MIN_LEN_PASSWORD:
+                self.insert_records(
+                    data=(new_user, new_password),
+                    table_header=self.TABLE_USERS_HEADER,
+                    table_name=self.TABLE_USERS,
+                    method='single',
+                    key_auto=False
+                )
+                self.__gather_users_available()
+                message = 'New user added.'
+            else:
+                message = f'User must be longer than {self.MIN_LEN_USERNAME},' \
+                          f'password must be longer than {self.MIN_LEN_PASSWORD}.'
+        else:
+            message = 'User already in the system.'
+
+        return message
 
     def retrieve_data(self,
                       select_command: str = '*',
@@ -206,8 +255,10 @@ class UserTable(DataBase):
         # Generate the SQL code to be used and do the search:
         sql = f'''
                 SELECT {select_command}
-                FROM {self.TABLE_USERS}
-                ''' + f'WHERE {where_command}' if type_filter == 1 else ''
+                FROM {self.TABLE_USERS}'''
+        if type_filter == 1:
+            sql += f'''
+                WHERE {where_command}'''
 
         # Send the search to the db and get the returned data (if any).
         search_result = self.gather_records(sql)
@@ -218,15 +269,15 @@ class UserTable(DataBase):
         else:
             return search_result
 
-    def __gather_users_available(self) -> list:
+    def __gather_users_available(self) -> None:
         """
         Gather all available users.
-        :return: List with users (if any), else, empty list.
+        :return: None.
         """
-        return self.retrieve_data(
-            select_command=self.TABLE_USERS_HEADER[1],
-            type_filter=0
-        )
+        # Gather all users.
+        self.__users_available = self.from_db_item_to_list(self.retrieve_data(
+                                              select_command=self.TABLE_USERS_HEADER[0],
+                                              type_filter=0))
 
     def __gather_password_for_user(self, username: str = None) -> list:
         """
@@ -234,8 +285,8 @@ class UserTable(DataBase):
         :return: List with password (if found) or empty list (not found).
         """
         return self.retrieve_data(
-            select_command=self.TABLE_USERS_HEADER[2],
-            where_command=f'{self.TABLE_USERS_HEADER[1]} = {username}',
+            select_command=self.TABLE_USERS_HEADER[1],
+            where_command=f'{self.TABLE_USERS_HEADER[0]} = "{username}"',
             type_filter=1
         )
 
@@ -256,13 +307,36 @@ class UserTable(DataBase):
         """
         if self.check_if_user_exists(username):
             # Only check password if the user exists.
-            password_stored = self.__gather_password_for_user(username)
+            password_stored = self.from_db_item_to_list(self.__gather_password_for_user(username))
             if password_stored[0] == pass_to_check:
                 return True
 
         # Base case
         return False
 
+    @staticmethod
+    def from_db_item_to_list(to_convert: list):
+        """
+        Transform db data into a single list.
+            From: [(item_i,), ...., (item_n,)]
+            To: [item_i, ...., item_n]
+        :param to_convert: list Format [(item_i,), ...., (item_n,)].
+        :return: list format [item_i, ...., item_n]
+        """
+        return list(map(lambda x: ''.join(list(x[0])), to_convert))
+
+    def __repr__(self):
+        """Representation of the class."""
+        return f'Class ({self.__class__.__name__}) that manage only the database table "{self.TABLE_USERS}".\n' \
+               f'Header: {", ".join(self.TABLE_USERS_HEADER)}.'
+
 
 if __name__ == '__main__':
-    print('This is a class to manage a DataBase, please do not use as main.')
+    print('This is a class to manage a DataBase, please do not use as main.\n\n')
+    user_db = UserTable()
+    # Test create a new user:
+    # user_db.add_data('test_user', 'test_pass_01')
+    # Test see all db data:
+    user_db.show_all_data(user_db.TABLE_USERS, user_db.TABLE_USERS_HEADER)
+    # Test if gather data works.
+    print('Correct!' if user_db.check_if_password_correct('test_user', 'test_pass_01') else 'Wrong..')
