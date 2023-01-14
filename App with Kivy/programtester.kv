@@ -1,3 +1,4 @@
+# Kivy visual format. 2023 JCA.
 #:kivy 2.1.0
 #:import hex kivy.utils.get_color_from_hex
 
@@ -20,7 +21,7 @@
             size: self.size
 
     Label:
-        text: 'Test Some Programs with UI'
+        text: '2023 Juan C.A.'
         bold: True
         font_size: 23
         font_name: font_title
@@ -37,6 +38,10 @@
         on_release: app.close_application()
 
 <LogInWindow>:
+    # properties
+    user_id: user_id
+    user_password: user_password
+
     id: login_window
     orientation: 'vertical'
     spacing: 10
@@ -59,6 +64,7 @@
             font_name: font_title
 
         TextInput:
+            id: user_id
             hint_text: 'Username'
             multiline: False
             # Change height:
@@ -72,15 +78,17 @@
             size_hint_y: None
             height: 40
             TextInput:
+                id: user_password
                 hint_text: 'Password'
                 password: True
                 multiline: False
-                # on_text: viewer.text = self.text
                 size_hint_x: .7
 
             Button:
                 text: 'Show'
                 size_hint_x: .3
+                on_press: root.show_hide_password(1)
+                on_release: root.show_hide_password()
 
         BoxLayout:
             orientation: 'horizontal'
@@ -92,6 +100,7 @@
                 text: 'Log In'
                 font_size: 15
                 padding: 5, 5
+                on_press: root.check_log_in()
 
             Button:
                 text: 'Create user'
@@ -102,7 +111,10 @@
                     root.manager.current = 'new_user'
 
         Label:  # Needed to align the items in the center
-            id: dummy_space
+            text: root.message_to_users
+            bold: True
+            font_size: 25
+            font_name: font_title
 
 <UserCreation>:
     id: create_new_user
