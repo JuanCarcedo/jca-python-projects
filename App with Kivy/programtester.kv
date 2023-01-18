@@ -6,6 +6,17 @@
 #:set clr_blue_fade hex('#6c9aa3')
 #:set clr_body hex('#d8dbdd')
 #:set font_title 'data/fonts/8-bit-operator/8bitOperatorPlus-Regular.ttf'
+#:set font_button_size 15
+#:set font_normal 20
+
+# Background Color General
+<CanvasBackground@Widget>:
+    canvas:
+        Color:
+            rgba: clr_blue_fade
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
 # Lower bar:
 <LowerBar@BoxLayout>:
@@ -25,12 +36,12 @@
         bold: True
         font_size: 23
         font_name: font_title
-        size_hint_x: .9
 
     Button:
         text: 'x'
         font_size: 15
         background_color: clr_blue_fade
+        background_normal: ''  # Delete default background
         size_hint_x: .05
         size_hint_y: .7
         valign: 'center'
@@ -47,17 +58,14 @@
     spacing: 10
     distance_x: self.size[0]
 
-    LowerBar:
-        # Used in all widgets.
-
     # Log on manager =======
     BoxLayout:
         orientation: 'vertical'
         # Change padding to center the layout
         padding: login_window.distance_x/4, 10
         spacing: 10
+
         Label:  # Needed to align the items in the center
-            id: dummy_space_2
             text: 'App Mk.I'
             bold: True
             font_size: 40
@@ -70,6 +78,7 @@
             # Change height:
             size_hint_y: None
             height: 40
+            on_text_validate: user_password.focus = True
 
         BoxLayout:
             orientation: 'horizontal'
@@ -100,7 +109,8 @@
                 text: 'Log In'
                 font_size: 15
                 padding: 5, 5
-                on_press: root.check_log_in()
+                on_press:
+                    root.check_log_in()
 
             Button:
                 text: 'Create user'
@@ -109,42 +119,136 @@
                 on_press:
                     root.manager.transition.direction ='right'
                     root.manager.current = 'new_user'
+                    root.message_to_users = ''
 
         Label:  # Needed to align the items in the center
             text: root.message_to_users
             bold: True
             font_size: 25
             font_name: font_title
+            color: (1, 0, 0, 1)
+    LowerBar:
+    # Used in all widgets.
 
 <UserCreation>:
+    # properties
+    new_user: new_user
+    new_password: new_password
+    repeat_password: repeat_password
+
     id: create_new_user
     orientation: 'vertical'
-    spacing: 10
     distance_x: self.size[0]
+
+    CanvasBackground
+
+    # Log on manager =======
+    BoxLayout:  # Main box
+        orientation: 'vertical'
+        Label:
+            text: 'Create your user'
+            bold: True
+            font_size: 40
+            font_name: font_title
+            height: 40
+
+        BoxLayout:
+            orientation: 'horizontal'
+            height: 10
+            Label:  # Username
+                text: 'Username:'
+            TextInput:
+                id: new_user
+                hint_text: 'Write here'
+                multiline: False
+                focus: True
+                # Activate Password when enter is clicked.
+                on_text_validate: new_password.focus = True
+                on_text: root.validate_username()
+            Label:
+                text: root.label_check_username
+
+        BoxLayout:
+            orientation: 'horizontal'
+            height: 20
+            Label:  # Password
+                text: 'Password:'
+            TextInput:
+                id: new_password
+                hint_text: 'Write here'
+                multiline: False
+                # Activate Password 2 when enter is clicked.
+                on_text_validate: repeat_password.focus = True
+                on_text: root.validate_password()
+            Label:
+                text: root.label_check_password
+
+        BoxLayout:
+            orientation: 'horizontal'
+            height: 20
+            Label:  # Repeat password
+                text: 'Repeat password:'
+            TextInput:
+                id: repeat_password
+                hint_text: 'Write here'
+                multiline: False
+                on_text: root.validate_password()
+            Label:
+                text: root.label_check_repeat_password
+
+        GridLayout:  # Item/Write/Check
+            rows: 1
+            cols: 3
+            spacing: 10
+            # Change padding to center the layout
+            padding: create_new_user.distance_x/4, 10
+
+            Button:
+                text: 'Create User'
+                font_size: font_button_size
+                size_hint_y: None
+                height: 40
+                on_press: root.create_new_user()
+            Label:
+                # Emtpy
+            Button:  # Go back
+                text: 'Back'
+                font_size: font_button_size
+                size_hint_y: None
+                height: 40
+                on_press:
+                    root.manager.transition.direction ='left'
+                    root.manager.current = 'login'
+
+        Label:
+            # Dummy needed
 
     LowerBar:
         # Used in all widgets.
 
-    # User creation pack =============
+<Menu>:
+    id: menu
+    CanvasBackground
+
+    # Main Menu =======
     BoxLayout:
         orientation: 'vertical'
-        # Change padding to center the layout
-        padding: create_new_user.distance_x/4, 10
-        spacing: 10
-        Button:
-            text: 'Back'
-            font_size: 15
-            height: 40
-            padding: 5, 5
-            on_press:
-                root.manager.transition.direction ='left'
-                root.manager.current = 'login'
-
         Label:
-            text: 'WIP'
+            text: 'Main Menu'
             bold: True
             font_size: 40
             font_name: font_title
+            height: 40
 
+        Label:
+            text: 'Work in progress'
+            font_size: font_normal
 
+        Button:
+            text: 'Log off'
+            on_press:
+                root.manager.transition.direction ='right'
+                root.manager.current = 'login'
 
+    LowerBar:
+        # Used in all widgets.
