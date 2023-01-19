@@ -216,10 +216,7 @@
                 font_size: font_button_size
                 size_hint_y: None
                 height: 40
-                on_press:
-                    root.manager.transition.direction ='left'
-                    root.manager.current = 'login'
-
+                on_press: root.go_back_login()
         Label:
             # Dummy needed
 

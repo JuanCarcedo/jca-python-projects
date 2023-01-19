@@ -196,13 +196,10 @@ class UserTable(DataBase):
         password TEXT
         '''
 
-    __users_available = []
-
     def __init__(self):
         super().__init__()
         # Create UserTable
         self.create_table(self.TABLE_USERS, self.TABLE_USER_FIELDS)
-        self.__gather_users_available()
 
     def add_data(self, new_user: str, new_password: str) -> bool:
         """
@@ -212,25 +209,19 @@ class UserTable(DataBase):
         :param new_password: str. New password.
         :return: True if correct, False if none.
         """
-        # Usernames must be lower and without spaces in the sides.
-        new_user = new_user.strip().lower()
-        # Only check available here is if the user exists.
-        if not self.check_if_user_exists(new_user):
-            pre_users = len(self.__users_available)
-            self.insert_records(
-                data=(new_user, new_password),
-                table_header=self.TABLE_USERS_HEADER,
-                table_name=self.TABLE_USERS,
-                method='single',
-                key_auto=False
-            )
-            # Update list of users.
-            self.__gather_users_available()
-            if len(self.__users_available) > pre_users:
-                return True
+        pre_users = len(self.gather_users_available())
+        self.insert_records(
+            data=(new_user, new_password),
+            table_header=self.TABLE_USERS_HEADER,
+            table_name=self.TABLE_USERS,
+            method='single',
+            key_auto=False
+        )
+        # Check if something new went in.
+        if len(self.gather_users_available()) > pre_users:
+            return True
 
         return False
-
 
     def retrieve_data(self,
                       select_command: str = '*',
@@ -263,17 +254,17 @@ class UserTable(DataBase):
         else:
             return search_result
 
-    def __gather_users_available(self) -> None:
+    def gather_users_available(self) -> list:
         """
         Gather all available users.
-        :return: None.
+        :return: List with users.
         """
         # Gather all users.
-        self.__users_available = self.from_db_item_to_list(self.retrieve_data(
+        return self.from_db_item_to_list(self.retrieve_data(
                                               select_command=self.TABLE_USERS_HEADER[0],
                                               type_filter=0))
 
-    def __gather_password_for_user(self, username: str = None) -> list:
+    def gather_password_for_user(self, username: str = None) -> list:
         """
         Retrieve the password stored for a particular user.
         :return: List with password (if found) or empty list (not found).
@@ -284,14 +275,6 @@ class UserTable(DataBase):
             type_filter=1
         )
 
-    def check_if_user_exists(self, username: str) -> bool:
-        """
-        Check if the user is in the database.
-        :param username: User to search in database.
-        :return bool: True if the user exists, False otherwise.
-        """
-        return True if username in self.__users_available else False
-
     def check_login_details_correct(self, username: str, password: str) -> bool:
         """
         Check if the relation user-password it is correct.
@@ -299,14 +282,9 @@ class UserTable(DataBase):
         :param password: Password.
         :return bool: True if it is correct, False otherwise.
         """
-        # Delete spaces and put in lowercase.
-        username = username.strip().lower()
-
-        if self.check_if_user_exists(username):
-            # Only check password if the user exists.
-            password_stored = self.from_db_item_to_list(self.__gather_password_for_user(username))
-            if password_stored[0] == password:
-                return True
+        password_stored = self.from_db_item_to_list(self.gather_password_for_user(username))
+        if password_stored[0] == password:
+            return True
 
         # Base case
         return False

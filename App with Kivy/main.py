@@ -3,6 +3,7 @@
     App to control multiple programs with Python.
     TODO:
         - Create user: Size with the inputs.
+        - When going back to log in, delete the field.
         - Solve issue with message to users when jumping between screens.
         - Menu
     Work In Progress:
@@ -19,9 +20,11 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.screenmanager import Screen, ScreenManager, SlideTransition
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 # Other imports
 import configuration as config
-from user_management import UserManager
+from user_manager import UserManager
 
 
 # CONSTANTS or Requirements
@@ -39,7 +42,7 @@ class Menu(Screen):
 
 
 class UserCreation(Screen):
-    """Control the user creation."""
+    """Control the user creation screen."""
     # Kivy properties.
     new_user = ObjectProperty(None)
     new_password = ObjectProperty(None)
@@ -48,80 +51,38 @@ class UserCreation(Screen):
     label_check_username = StringProperty()
     label_check_password = StringProperty()
     label_check_repeat_password = StringProperty()
-    # Class properties
-    # -- Control user entries
-    user_status = False
-    password_status = False
 
     def __init__(self, **kwargs):
         super(UserCreation, self).__init__(**kwargs)
         # Default labels for checks
-        self.label_check_username = config.STATUS_LABELS[1]
-        self.label_check_password = config.STATUS_LABELS[1]
-        self.label_check_repeat_password = config.STATUS_LABELS[1]
+        self.set_label_check_user(config.STATUS_LABELS[1])
+        self.set_label_check_password(config.STATUS_LABELS[1])
+        self.set_label_check_repeat_password(config.STATUS_LABELS[1])
 
     def create_new_user(self):
         """ Send username and password to the database. """
         # Note create new user always validate.
-        if UserCreation.validate_user_and_password(username=self.new_user.text,
-                                                   password=self.new_password.text,
-                                                   re_password=self.repeat_password.text):
-            # Checks OK
-            if user_manager.add_data(new_user=self.new_user.text, new_password=self.new_password.text):
-                # Change screen to log-in
-                self.manager.current = 'login'
+        if user_manager.create_user(user_create=self.new_user.text,
+                                    pass_create=self.new_password.text,
+                                    pass_re_entry=self.repeat_password.text):
+            # Pop up with confirmation:
+            ProgramTesterApp.pop_ups_generator(title_pop='New User', text_pop='User Created!')
+            self.go_back_login()
 
-    def __perform_checks(self, item_check: str,
-                         type_check: int = 0,
-                         min_len: int = 7) -> tuple:
-        """
-        Validation of the parameter "item_check".
-        :param item_check: str; username or password
-        :param type_check: int; 0 username, 1 password
-        :param min_len: int; Minimum length of item_check
-        :return: tuple; status, label
-        """
-        # Default
-        status = False
-
-        # Empty
-        if not item_check:
-            label = config.STATUS_LABELS[1]
-
-        # Shorter than a minimum
-        elif len(item_check) <= min_len:
-            label = config.STATUS_LABELS[4]
-
-        # Valid
         else:
-            label = config.STATUS_LABELS[2]
-            status = True
-
-        # Only for user
-        if type_check == 0:
-            status = False
-            # Longer than a maximum
-            if len(item_check) > config.MAX_LEN_USERNAME:
-                label = config.STATUS_LABELS[5]
-
-            # Is it available?
-            elif user_manager.check_if_user_exists(item_check):
-                label = config.STATUS_LABELS[3]
-
-            else:
-                status = True
-
-        return status, label
+            # Something went wrong.
+            # Pop up:
+            ProgramTesterApp.pop_ups_generator(title_pop='Warning', text_pop='User not created, check parameters.')
 
     def validate_username(self) -> None:
         """ On the fly validation of user.
             User must be unique (not exists), longer than X chars and not being empty.
         """
         # Reduce errors: Clear empty spaces in username and put it in lower.
-        self.user_status, self.label_check_username = self.__perform_checks(
-            item_check=self.new_user.text.strip().lower(),
-            type_check=0,
-            min_len=config.MIN_LEN_USERNAME)
+        validation = user_manager.perform_checks(
+            item_check=self.new_user.text, type_check=0, min_len=config.MIN_LEN_USERNAME)
+        user_manager.set_user_status(validation[0])
+        self.set_label_check_user(validation[1])
 
     def validate_password(self) -> None:
         """ On the fly validation of passwords.
@@ -129,54 +90,53 @@ class UserCreation(Screen):
             Password and re-entering must be equal.
         """
         # Password
-        self.password_status, self.label_check_password = self.__perform_checks(
-            item_check=self.new_password.text,
-            type_check=1,
-            min_len=config.MIN_LEN_PASSWORD)
+        password_check = user_manager.perform_checks(
+            item_check=self.new_password.text, type_check=1, min_len=config.MIN_LEN_PASSWORD)
 
-        # Re enter password
-        _, self.label_check_repeat_password = self.__perform_checks(
-            item_check=self.repeat_password.text,
-            type_check=1,
-            min_len=config.MIN_LEN_PASSWORD)
+        user_manager.set_password_status(password_check[0])
+        self.set_label_check_password(password_check[1])
 
         # Passwords equal?
         if self.repeat_password.text != self.new_password.text:
-            self.label_check_repeat_password = config.STATUS_LABELS[6]
-            self.password_status = False
+            re_enter_password_check = config.STATUS_LABELS[6]
+            user_manager.set_password_status(password_check[0])
 
-    @staticmethod
-    def validate_user_and_password(username: str = None, password: str = None, re_password: str = None) -> bool:
-        """  -- Available for other methods  --
-        Returns True if the user and password follows the required parameters:
-            User and password must be filled *not empty*
-            Username must not be already created
-            Username and passwords must be over certain length.
-            Passwords must be equal
-        :param username: str Username to check.
-        :param password: str Password to check.
-        :param re_password: str Re-input of password.
-        :result str: Code based on type of validation failed. 0 == Correct.
-        """
-        # Reduce errors: Clear empty spaces in username and put in lower.
-        username = username.strip().lower()
-        # Username and Password are not empty
-        if not username or not password:
-            return False
-        # Username already exists:
-        if user_manager.check_if_user_exists(username):
-            return False
-        # Constraint in length:
-        if len(username) <= config.MIN_LEN_USERNAME:
-            return False
-        if len(password) <= config.MIN_LEN_PASSWORD:
-            return False
-        # Passwords equal:
-        if password != re_password:
-            return False
+        else:
+            # Re enter password
+            _, re_enter_password_check = user_manager.perform_checks(
+                item_check=self.repeat_password.text, type_check=1, min_len=config.MIN_LEN_PASSWORD)
 
-        # All conditions passed
-        return True
+        self.set_label_check_repeat_password(re_enter_password_check)
+
+    # Button
+    def go_back_login(self):
+        """Go back to log in (always will clean the fields)."""
+        self.__clean_fields()
+        # Change transition
+        self.manager.transition.direction = 'left'
+        # Change screen to home/menu
+        self.manager.current = 'login'
+
+    # Other methods
+    def set_label_check_user(self, text: str = ''):
+        """Set the value of username check label"""
+        self.label_check_username = text
+
+    def set_label_check_password(self, text: str = ''):
+        """Set the value of password check label"""
+        self.label_check_password = text
+
+    def set_label_check_repeat_password(self, text: str = ''):
+        """Set the value of repeat password check label"""
+        self.label_check_repeat_password = text
+
+    def __clean_fields(self):
+        """Clear login fields."""
+        self.set_label_check_user(config.STATUS_LABELS[0])
+        self.set_label_check_password(config.STATUS_LABELS[0])
+        self.set_label_check_repeat_password(config.STATUS_LABELS[0])
+        self.new_user.text, self.new_password.text, self.repeat_password.text = '', '', ''
+        user_manager.clean_status()
 
 
 class LogInWindow(Screen):
@@ -200,7 +160,11 @@ class LogInWindow(Screen):
 
     def check_log_in(self) -> None:
         """Manage log into the system."""
-        if user_manager.check_login_details_correct(username=self.user_id.text, password=self.user_password.text):
+        if user_manager.log_in(username=self.user_id.text, password=self.user_password.text):
+            # Pop up with confirmation:
+            ProgramTesterApp.pop_ups_generator(title_pop='Log In', text_pop='Success! Welcome')
+
+            self.clear_fields()
             # Change transition
             self.manager.transition.direction = 'left'
             # Change screen to home/menu
@@ -209,6 +173,10 @@ class LogInWindow(Screen):
         else:
             # Incorrect details
             self.message_to_users = 'Wrong details.'
+
+    def clear_fields(self):
+        """Clear all fields."""
+        self.user_id.text, self.user_password.text, self.message_to_users = '', '', ''
 
 
 class ProgramTesterApp(App):
@@ -243,11 +211,23 @@ class ProgramTesterApp(App):
         return root
 
     def close_application(self):
-        """
-        Close the app and close the window.
-        """
+        """Close the app and close the window."""
         App.get_running_app().stop()
         Window.close()
+
+    @staticmethod
+    def pop_ups_generator(title_pop: str = 'Ups', text_pop: str = 'Nothing shared.'):
+        """ Control pop-ups.
+        :param title_pop: str. Title for the pop-up.
+        :param text_pop: str. Text inside the pop-up.
+        """
+        popup_item = Popup(title=title_pop,
+                           title_align='center',
+                           content=Label(text=text_pop,
+                                         text_size=(100, None),
+                                         halign='center', valign='middle'),
+                           size_hint=(None, None), size=(200, 200))
+        popup_item.open()
 
 
 if __name__ == '__main__':
