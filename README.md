@@ -24,5 +24,5 @@ Others:
 - finance_calculator: Interest calculation on a loan or an investment (simple, compound).
   
 With SQLite:  
-SQLite Test: Class to manage/handle simple SQLite requests (create table, update table...).  
-Bookstore: Bookstore data management with database. Note there is an external class to manage the interaction with the database.  
+- SQLite Test: Class to manage/handle simple SQLite requests (create table, update table...).  
+- Bookstore: Bookstore data management with database. Note there is an external class to manage the interaction with the database.  
