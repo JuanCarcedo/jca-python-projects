@@ -17,7 +17,7 @@ Note that every folder will (unless otherwise noted) hold only one single progra
 - Dataframe Check: Class to do some basic first checks to a set of data in Pandas.
 - Email platform simple simulator: Simulator of an inbox.
   
-Without OOP:
+Others:
 - File check data: Initial checks (counting items) for txt files.
 - Files - Function Converter: Gather data from a file, execute the calculations required and then save the results into another file.
 - Task Manager: Base for a task manager program with admin and user menus and options.
