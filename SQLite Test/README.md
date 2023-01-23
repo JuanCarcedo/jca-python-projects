@@ -7,8 +7,6 @@ This class will be reused (and sometimes enhanced) in multiple of my projects as
 - Check "result/" to see the outcome of the program.
 
 ## Instructions
-***
-
 - Create a Fork of the repository (you can access all projects).
 - Open your favourite IDE (I use [PyCharm](https://www.jetbrains.com/pycharm/)).
 - Check the ***[requirements.txt](https://github.com/JuanCarcedo/jca-python-projects/blob/main/requirements.txt)*** file.  
@@ -21,14 +19,12 @@ Note:
 - The file inside **data** folder is a blank database. It will be filled once the code runs.
 
 ## How to use
-***
 1) Run the file ```main.py```.
 2) Open SQLite Studio and connect to the database inside **result** folder.  
 
 You can see/check that the expected modifications are done (check the Example of output).
 
 ## Example of output
-***
 Original data:  
 ```python
 STUDENTS = [
@@ -109,9 +105,8 @@ Process finished with exit code 0
 ```
 
 Output table:     
-![db_output](/readme_images/db_result.PNG)
+![db_output](readme_images/db_result.PNG)
 
 ## Author and Licence
-****
 **[Juan Carcedo](https://github.com/JuanCarcedo)**  
 2022 Copyright © - Licence [MIT](https://github.com/JuanCarcedo/jca-python-projects/blob/main/LICENSE.txt)
