@@ -4,6 +4,18 @@
         An Email platform simulation.
         try-except blocks to prevent errors during execution.
         assert used to prevent unrealistic input.
+    TODO:
+      - Create a class for email_management.
+      - import smtplib
+      - Code for sending:
+        # Constants
+        Y_HOST = 'smtp.mail.yahoo.com'  # Change to provider
+        Y_EMAIL = 'my_email@yahoo.com'
+        Y_PASS = 'my_pass_for_email'  # Keep secret!
+        with smtplib.SMTP(Y_HOST) as s:
+            s.login(Y_EMAIL, Y_PASS)
+            s.starttls()
+            s.sendmail(from_addr=Y_EMAIL, to_addrs=recipient, msg=email_text)
     :copyright: (c) 2022 Juan Carcedo, All rights reserved
     :licence: MIT, see LICENSE.txt for further details.
 """
@@ -11,15 +23,22 @@
 from email import Email
 
 # CONSTANTS ====
-MENU = '''+\tadd
-+\tshow unread
-+\tread
-+\tsend
-+\tmark spam
-+\tshow spam
-+\tdelete
-+\tquit
+MENU = '''+ (0) \tadd item to inbox
++ (1) \tshow unread
++ (2) \tread
++ (3) \tsend
++ (4) \tmark spam
++ (5) \tshow spam
++ (6) \tdelete
++ (99) \tquit
 +-- Select: '''
+# Note emails are created as objects.
+INITIAL_INBOX = [
+        Email('hello@gmail.com', 'Many, many things.\n I want to say.\n Better not!.'),
+        Email('someone@gmail.com', 'More things.\n Already said.'),
+        Email('fakefake@spam.com', 'You are a winner!\n Yes, you are!.'),
+        Email('bank_weird@bankbank.com', 'Send your login details please.')
+    ]
 
 
 def add_email(content: str, sender: str) -> Email:
@@ -163,16 +182,11 @@ def get_spam_emails() -> list:
 
 if __name__ == '__main__':
     print('+----------------- Email Platform -----------------+')
-    inbox = [
-        Email('hello@gmail.com', 'Many, many things.\n I want to say.\n Better not!.'),
-        Email('someone@gmail.com', 'More things.\n Already said.'),
-        Email('fakefake@spam.com', 'You are a winner!\n Yes, you are!.'),
-        Email('bank_weird@bankbank.com', 'Send your login details please.')
-    ]
+    inbox = INITIAL_INBOX
 
-    user_choice = ''
+    user_choice = -1
 
-    while user_choice != 'quit':
+    while user_choice != 99:
         # Note the function returns a list [number of unread, number of spam].
         status_emails = count_unread_emails_and_spam()
         print(f'\n\n+--- Status ---+')
@@ -181,97 +195,103 @@ if __name__ == '__main__':
         print(f'+   Spam:   {status_emails[1]} -+')
         print(f'+---- ---- ----+')
 
-        # Gather the choice, lower is used to allow upper and lower case answers.
-        user_choice = input(f'+- What would you like to do?\n{MENU}').lower()
-        if user_choice == 'read':
-            try:
-                # try-except to prevent issues whilst using cast into int.
-                email_selected = int(input('\n+ Select the email you want to read (number): '))
-                assert email_selected >= 0, 'Please input a positive number.'
+        try:
+            # Gather the choice:
+            user_choice = int(input(f'+- What would you like to do?\n{MENU}'))
 
-            except ValueError:
-                print('Please only input a number equal or higher than 0.')
-
-            except AssertionError:
-                # This will prevent the program to stop if assert is triggered.
-                pass
-
-            else:
-                get_email(email_selected)
-
-        elif user_choice == 'mark spam':
-            try:
-                # try-except to prevent issues whilst using cast into int.
-                email_selected = int(input('\n+ Select the email you want to mark as spam (number): '))
-                assert email_selected >= 0, 'Please input a positive number.'
-
-            except ValueError:
-                print('Please only input a number equal or higher than 0.')
-
-            except AssertionError:
-                # This will prevent the program to stop if assert is triggered.
-                pass
-
-            else:
-                mark_as_spam(email_selected)
-
-        elif user_choice == 'send':
-            send_email()
-
-        elif user_choice == 'delete':
-            try:
-                # try-except to prevent issues whilst using cast into int.
-                email_selected = int(input('\n+ Select the email you want to delete (number): '))
-                assert email_selected >= 0, 'Please input a positive number.'
-
-            except ValueError:
-                print('Please only input a number equal or higher than 0.')
-
-            except AssertionError:
-                # This will prevent the program to stop if assert is triggered.
-                pass
-
-            else:
-                delete_email(email_selected)
-
-        elif user_choice == 'add':
-            to_whom = input('+- To: ')
-            if not to_whom:
-                print('+-- Cannot add email. Sender required.')
-            else:
-                email_body = input('+- Write message:\n\t')
-                # Add the email to the inbox
-                inbox.append(add_email(content=email_body, sender=to_whom))
-                print('+- Email added ------+')
-
-        elif user_choice == 'show unread':
-            # Retrieve the list and then tell the user about them.
-            unread_emails = get_unread_emails()
-            # Logic to show unread emails only if there are any.
-            if len(unread_emails) == 0:
-                print('+- No emails are unread.')
-            else:
-                print('+- Unread emails:')
-                for i in range(len(unread_emails)):
-                    print(f'+ Email position {inbox.index(unread_emails[i])} from {unread_emails[i].from_address}.')
-                print('+- Use "read" option to read any of the emails above.')
-
-        elif user_choice == 'show spam':
-            # Retrieve the list and then tell the user about them.
-            spam_emails = get_spam_emails()
-            # Logic to show spam emails only if there are any.
-            if len(spam_emails) == 0:
-                print('+- No spam emails. Yey!')
-            else:
-                print('+- Spam emails:')
-                for i in range(len(spam_emails)):
-                    print(f'+ Email position {inbox.index(spam_emails[i])} from {spam_emails[i].from_address}.')
-                print('+- Use "read" option to read any of the emails above.')
-
-        elif user_choice == 'quit':
-            print('+- Goodbye')
-
+        except ValueError:
+            print('+-- Please, input a number to choose an option.')
         else:
-            print('+-- Oops - incorrect input')
+            # All is fine
+            if user_choice == 2:  # Read
+                try:
+                    # try-except to prevent issues whilst using cast into int.
+                    email_selected = int(input('\n+ Select the email you want to read (number): '))
+                    assert email_selected >= 0, 'Please input a positive number.'
+
+                except ValueError:
+                    print('Please only input a number equal or higher than 0.')
+
+                except AssertionError:
+                    # This will prevent the program to stop if assert is triggered.
+                    pass
+
+                else:
+                    get_email(email_selected)
+
+            elif user_choice == 4:  # Mark Spam
+                try:
+                    # try-except to prevent issues whilst using cast into int.
+                    email_selected = int(input('\n+ Select the email you want to mark as spam (number): '))
+                    assert email_selected >= 0, 'Please input a positive number.'
+
+                except ValueError:
+                    print('Please only input a number equal or higher than 0.')
+
+                except AssertionError:
+                    # This will prevent the program to stop if assert is triggered.
+                    pass
+
+                else:
+                    mark_as_spam(email_selected)
+
+            elif user_choice == 3:  # Send
+                send_email()
+
+            elif user_choice == 6:  # Delete
+                try:
+                    # try-except to prevent issues whilst using cast into int.
+                    email_selected = int(input('\n+ Select the email you want to delete (number): '))
+                    assert email_selected >= 0, 'Please input a positive number.'
+
+                except ValueError:
+                    print('Please only input a number equal or higher than 0.')
+
+                except AssertionError:
+                    # This will prevent the program to stop if assert is triggered.
+                    pass
+
+                else:
+                    delete_email(email_selected)
+
+            elif user_choice == 0:  # Add email to inbox
+                from_who = input('+- From: ')
+                if not from_who:
+                    print('+-- Cannot add email. Sender required.')
+                else:
+                    email_body = input('+- Write message:\n\t')
+                    # Add the email to the inbox
+                    inbox.append(add_email(content=email_body, sender=from_who))
+                    print('+- Email added ------+')
+
+            elif user_choice == 1:  # Show unread
+                # Retrieve the list and then tell the user about them.
+                unread_emails = get_unread_emails()
+                # Logic to show unread emails only if there are any.
+                if len(unread_emails) == 0:
+                    print('+- No emails are unread.')
+                else:
+                    print('+- Unread emails:')
+                    for i in range(len(unread_emails)):
+                        print(f'+ Email position {inbox.index(unread_emails[i])} from {unread_emails[i].from_address}.')
+                    print('+- Use "read" option to read any of the emails above.')
+
+            elif user_choice == 5:  # Show spam
+                # Retrieve the list and then tell the user about them.
+                spam_emails = get_spam_emails()
+                # Logic to show spam emails only if there are any.
+                if len(spam_emails) == 0:
+                    print('+- No spam emails. Yey!')
+                else:
+                    print('+- Spam emails:')
+                    for i in range(len(spam_emails)):
+                        print(f'+ Email position {inbox.index(spam_emails[i])} from {spam_emails[i].from_address}.')
+                    print('+- Use "read" option to read any of the emails above.')
+
+            elif user_choice == 99:
+                print('+- Goodbye')
+
+            else:
+                print('+-- Oops - incorrect input')
 
     print('\n+------------------- Program closed -------------------+')
