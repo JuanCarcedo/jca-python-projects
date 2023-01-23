@@ -111,7 +111,8 @@ Note that, now, the Status is updated:
 +   Unread: 5 -+
 +   Spam:   0 -+
 +---- ---- ----+
-+ ```
++
+```
 
 
 Show unread:  
@@ -142,7 +143,6 @@ Note Spam is now 1. Inbox is still 5.
 
 + Select the email you want to mark as spam (number): 3
 +-- Email from bank_weird@bankbank.com marked as spam.
-
 
 +--- Status ---+
 + Inbox:    5 -+
