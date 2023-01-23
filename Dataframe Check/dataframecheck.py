@@ -1,10 +1,9 @@
 """
-    overviewdataframe
+    dataframecheck
     Return in terminal a list of handy checks for Pandas df.
     :copyright: (c) 2022 Juan Carcedo, All rights reserved
     :licence: MIT, see LICENSE.txt for further details.
 """
-
 import pandas as pd
 
 
@@ -48,13 +47,3 @@ class DfInitCheck:
 
     def __str__(self):
         return 'Please use a DataFrame as argument. Expected return is a set of commands in terminal.'
-
-
-if __name__ == '__main__':
-    # --- Data exploration -- TESTs only ---
-    df_test = pd.read_csv('Daily BTC price.csv')
-    DfInitCheck.check_df(df_test)  # Check the dataframe
-    # --- Data cleaning ---
-    # Search for NaN data and delete if needed
-    print('Checking dataframe for NaN values...')
-    print(f'Deleted rows?: {DfInitCheck.remove_na(df_test)}')

@@ -12,4 +12,3 @@ Future updates:
 pandas~=1.5.1
 Pillow~=9.4.0
 Tabulate~=0.9.0
-Kivy~=2.1.0
