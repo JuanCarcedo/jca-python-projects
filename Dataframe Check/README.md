@@ -4,8 +4,6 @@ I was learning Data Science and Pandas. As I was nearly doing these checks every
 It is intended to give a detailed overview of a csv using Pandas.
 
 ## Instructions
-***
-
 - Create a Fork of the repository (you can access all projects).
 - Open your favourite IDE (I use [PyCharm](https://www.jetbrains.com/pycharm/)).
 - Check the ***[requirements.txt](https://github.com/JuanCarcedo/jca-python-projects/blob/main/requirements.txt)*** file.  
@@ -15,7 +13,6 @@ It is intended to give a detailed overview of a csv using Pandas.
 Note: This is a no-GUI program, therefore you will see the outputs in the console.
 
 ## How to use
-***
 Note that you do not need to create an instance for the class, all methods are classmethods.
 1) Copy into the folder a CSV file that you want to overview.
 2) Change the _file_to_check_ variable in 'main.py' to the new file. Currently, it is:  
@@ -26,9 +23,7 @@ Note that you do not need to create an instance for the class, all methods are c
 Note that the DfInitCheck class can also remove na in the file using:  
 ```DfInitCheck.remove_na(df_test)```
 
-
 ## Example of output
-***
 Using the file ```example.csv``` provided, the output is:
 ```
 ---- Basic checks to overview the dataframe ----
@@ -91,6 +86,5 @@ Deleted rows?: True
 ```
 
 ## Author and Licence
-****
 **[Juan Carcedo](https://github.com/JuanCarcedo)**  
 2022 Copyright © - Licence [MIT](https://github.com/JuanCarcedo/jca-python-projects/blob/main/LICENSE.txt)
