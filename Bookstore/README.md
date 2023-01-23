@@ -10,6 +10,7 @@ Note that tabulate is used to provide a clear and defined output.
 - Check the ***[requirements.txt](https://github.com/JuanCarcedo/jca-python-projects/blob/main/requirements.txt)*** file.  
   - For this project you will need:
     + tabulate: To pretty print the outputs. 
+    + [SQLite Studio](https://www.sqlitestudio.pl/) to check the DataBase content.
 
 Note: This is a no-GUI program, therefore you will see the outputs in the console.
 
