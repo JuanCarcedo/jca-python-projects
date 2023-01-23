@@ -1,7 +1,7 @@
 {
   "amazon": {
     "username": "used_email@gmail.com",
-    "pass": "wi8*9)L2mNifM$W%2"
+    "pass": "test01"
   },
   "facebook": {
     "username": "used_email@gmail.com",
@@ -14,5 +14,9 @@
   "github": {
     "username": "used_email@gmail.com",
     "pass": ")&g!9oE4IpV+bt*A6D"
+  },
+  "Link Game": {
+    "username": "super_gamer",
+    "pass": "&s4g6XZK2kp)!Gd$l"
   }
 }

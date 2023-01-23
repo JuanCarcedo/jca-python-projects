@@ -5,19 +5,21 @@
     :licence: MIT, see LICENSE.txt for further details.
 """
 import tkinter as tk
-import filemanagement as fm
+from tkinter.messagebox import showerror, showinfo, showwarning, askyesno
+from filemanagement import JsonFileManager
+import pandas as pd
 import genpassword as gp
 
+# CONSTANTS ========================
 FONT = ('Consolas', 10, 'bold')
 FONT_TITLE = ('Consolas', 25, 'bold')
-JSON_FILE = 'data.json'
 
 
-class InterfaceManager:
+class InterfaceManager(JsonFileManager):
 
     def __init__(self):
         self.__root = tk.Tk()
-        self.__root.title('Password saver')
+        self.__root.title('Password Storage')
         self.__root.config(padx=20, pady=20, bg='gray')
         self.__basic_structure()
         self.__entry_fields()
@@ -38,7 +40,7 @@ class InterfaceManager:
     def __basic_structure(self):
         lb_title = self.__gen_labels(name='Pass Storage')
         # Labels: Web, email and password
-        lb_web = self.__gen_labels(name='Website')
+        lb_web = self.__gen_labels(name='From Where:')
         lb_mail = self.__gen_labels(name='Email/Username:')
         lb_pswrd = self.__gen_labels(name='Password:')
         # Display in screen
@@ -74,14 +76,31 @@ class InterfaceManager:
 
     # ---------------- Methods from buttons ------------- #
     def update_file(self):
-        check = fm.add_to_file(mail=self.input_mail.get(),
-                               password=self.input_pswrd.get(),
-                               web=self.input_web.get())
-        if check:
-            self.clear_inputs()
+        """ Refresh the file's data.
+            Checks parameters before adding data.
+        """
+        input_fields = (self.input_web.get(), self.input_mail.get(), self.input_pswrd.get())
+        if not input_fields[0] or not input_fields[1] or not input_fields[2]:
+            InterfaceManager.pop_up(title='Warning', message='Empty fields.', type_mess='warning')
+
+        else:  # All fields filled
+            message = f'Email: {self.input_mail.get()}\n Password: {self.input_pswrd.get()}\n is this ok?'
+            if InterfaceManager.pop_up(title='Review fields', message=message, type_mess='yesno'):
+                if self.create_file_json(mail=input_fields[1], password=input_fields[2], web=input_fields[0]):
+                    self.clear_inputs()
 
     def search_data(self):
-        fm.search_data_json(self.input_web.get())
+        """Search in the data for the website/place. Retrieve the values in a popup."""
+        web_search = self.input_web.get()
+        if web_search:  # not empty
+            title, message, message_type, password = self.search_data_json(web_search)
+            # Copy password to clipboard
+            self.copy_to_clipboard(password)
+
+        else:
+            title, message, message_type = 'Warning', 'From Where is empty', 'warning'
+
+        InterfaceManager.pop_up(title=title, message=message, type_mess=message_type)
 
     def new_password(self):
         """
@@ -97,7 +116,34 @@ class InterfaceManager:
         Cleans all parameters from screen (new input)
         """
         self.inpbox_web.delete(0, tk.END)
+        self.inpbox_mail.delete(0, tk.END)
         self.inpbox_pswrd.delete(0, tk.END)
+
+    def copy_to_clipboard(self, item):
+        """Copy an item to the clipboard."""
+        pd.DataFrame([item.strip()]).to_clipboard(index=False, header=False)
+
+    # 2023-JCA-New classmethod
+    @classmethod
+    def pop_up(cls, title: str = '', message: str = '', type_mess: str = ''):
+        """
+        Generate messages when requested.
+        :param str title: Title of the message.
+        :param str message: Message to display.
+        :param str type_mess: Selection of kind of message; warning, error, info or yesno.
+        :return: Only with yesno, other -> None
+        """
+        if type_mess == 'warning':
+            showwarning(title=title, message=message)
+        elif type_mess == 'error':
+            showerror(title=title, message=message)
+        elif type_mess == 'info':
+            showinfo(title=title, message=message)
+        elif type_mess == 'yesno':
+            return askyesno(title=title, message=message)
+        else:
+            pass
+        return None
 
 
 if __name__ == '__main__':

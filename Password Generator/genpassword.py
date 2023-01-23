@@ -28,11 +28,19 @@ LEN_NUMB = len(NUMBERS)-1
 def create_password():
     """Create random password"""
     seed(datetime.now())
-    password_letters = sample(LETTERS, randint(7, 10))
-    password_symb = sample(NUMBERS, randint(2, 10))
-    password_numb = sample(SYMBOLS, randint(2, 10))
-    password = password_letters + password_symb + password_numb
-    shuffle(password)
+
+    try:
+        password_letters = sample(LETTERS, randint(7, 10))
+        password_symb = sample(NUMBERS, randint(2, 10))
+        password_numb = sample(SYMBOLS, randint(2, 10))
+        password = password_letters + password_symb + password_numb
+        shuffle(password)
+
+    except ValueError:
+        # It can be that sample returns a sample larger than population.
+        # Rare error but can happen.
+        password = 'Click again'
+
     if len(password) > 31:
         password = password[:32]
     password = ''.join(password)
