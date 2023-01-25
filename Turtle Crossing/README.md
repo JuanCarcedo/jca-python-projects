@@ -1,5 +1,5 @@
 # Cross the road with the Turtle
-This is the first game I created. Later on I also did a snake and tried to develop something in PyGame following a tutorial.  
+This is the first game I created. Later I also did a snake and tried to develop something in PyGame following a tutorial.  
 The goal of this game is to make the Turtle cross safely the road.  
 All colored blocks are cars, you touch one, you lose.
 
