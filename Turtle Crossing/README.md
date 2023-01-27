@@ -8,7 +8,6 @@ All colored blocks are cars, you touch one, you lose.
 - Open your favourite IDE (I use [PyCharm](https://www.jetbrains.com/pycharm/)).
 - Check the ***[requirements.txt](https://github.com/JuanCarcedo/jca-python-projects/blob/main/requirements.txt)*** file.  
   - For this project you will need:
-    + tkinter.
     + turtle.
 
 Note:  
