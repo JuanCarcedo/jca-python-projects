@@ -13,10 +13,6 @@ Instructions of how to use are provided in each folder. Mostly it will require y
 ## Projects
 Note that every folder will (unless otherwise noted) hold only one single program. In some cases it is only a default class that I found interesting to build.  
 <em>List:</em>
-- Flash Cards: A game to learn Spanish.
-  + V2 20221101 - Redesign of the full program.
-- Turtle Crossing: My first game. Reach higher levels reaching the other side of the big road.
-  + V2 20221028 - High score included.
 - Email platform simple simulator: Simulator of an inbox.
 
 With SQLite:  
